@@ -10,14 +10,26 @@ const io = require("socket.io")(server, {
     }
 });
 const PORT = 8080;
-
+app.use(express.json())
 app.use(cors());
 const rooms = new Map();
 
 app.get('/', (request, response) => {
 
-    response.json({ msg: 'This is CORS-enabled for a Single Route' });
+    response.send(200);
 });
+app.post('/rooms', (request, response) => {
+    console.log('Request received')
+    const { roomId, name } = request.body;
+    if (!rooms.has(roomId)) {
+        rooms.set(roomId,
+            new Map([
+                ['users', new Map()],
+                ['messages', []]
+            ]))
+    }
+    response.send();
+})
 
 io.on('Connection', socket => {
     console.log(`Socket connected ${socket}`);
