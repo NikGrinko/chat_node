@@ -5,19 +5,19 @@ const SignIn = ({ onLogin }) => {
     const [isLoading, setLoading] = useState(false);
     const [signState, setSignState] = useState({
         roomId: '',
-        name: ''
+        userName: ''
     });
     //Отправка авторизационных данных для комнаты
     const onSubmit = () => {
-        if (signState.roomId == '' || signState.name == '') {
+        if (signState.roomId == '' || signState.userName == '') {
             return alert('Введите корректные данные!');
         }
         setLoading(true);
         axios.post('/rooms', signState)
-            .then(onLogin())
+            .then((res) => { onLogin(signState) })
         setSignState({
             roomId: '',
-            name: ''
+            userName: ''
         })
     }
     //Изменение состояния формы
@@ -30,11 +30,11 @@ const SignIn = ({ onLogin }) => {
         })
     }
     //Изменение состояния формы
-    const newNameState = (event) => {
+    const newUserNameNameState = (event) => {
         setSignState((prevState) => {
             return {
                 ...prevState,
-                name: event.target.value
+                userName: event.target.value
             }
         })
     }
@@ -42,7 +42,7 @@ const SignIn = ({ onLogin }) => {
         <>
             <div className='sing-in'>
                 <input onChange={newIdState} className='sing-in__id' type='text' placeholder='Room ID' value={signState.roomId} />
-                <input onChange={newNameState} className='sing-in__name' type='text' placeholder='Ваше имя' value={signState.name} />
+                <input onChange={newUserNameNameState} className='sing-in__name' type='text' placeholder='Ваше имя' value={signState.userName} />
                 <button disabled={isLoading} onClick={() => onSubmit()}>{isLoading ? 'ВХОД...' : 'ВОЙТИ'}</button>
             </div>
         </>
