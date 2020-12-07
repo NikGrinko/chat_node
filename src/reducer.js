@@ -18,6 +18,12 @@ const reducer = (state, action) => {
                 ...state,
                 messages: [...state.messages, action.payload]
             }
+        case 'SET_DATA':
+            return {
+                ...state,
+                messages: action.payload.messages,
+                users: action.payload.users
+            }
         default:
             return state
     }

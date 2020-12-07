@@ -29,7 +29,10 @@ function App() {
     });
     socket.emit('ROOM_JOIN', obj);
     const { data } = await axios.get(`/rooms/${obj.roomId}`)
-    setUsers(data.users)
+    dispatch({
+      type: 'SET_DATA',
+      payload: data
+    })
   };
   const addMessage = (message) => {
     dispatch({
